@@ -1,6 +1,7 @@
 ---
 apiVersion: apps/v1
 kind: Deployment
+namespace: azuredevops
 metadata:
   name: agent
   labels:
@@ -31,9 +32,9 @@ spec:
             - name: AZP_URL
               value: "https://dev.azure.com/RedshiftEnt"
             - name: AZP_POOL
-              value: "RS-03-KUB-01"
+              value: "rs-03-kub-01"
             - name: AZP_TOKEN
               valueFrom: 
                 secretKeyRef:
                   key: vg4bpyxriwwh5kkecc6vjrmtim5jragefkpnqhqpa2quocwqfbha
-                  name: RS-03-KUB-01
+                  name: "rs-03-kub-01"
