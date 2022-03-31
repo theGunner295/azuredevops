@@ -36,5 +36,5 @@ spec:
             - name: AZP_TOKEN
               valueFrom: 
                 secretKeyRef:
-                  key: rs-03-hub-01
+                  key: password
                   name: azuredevops-pat
