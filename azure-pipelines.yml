@@ -22,8 +22,8 @@ stages:
       displayName: Build adoa image
       inputs:
         command: buildAndPush
-        containerRegistry: 'DockerHub-awesomejack295'
-        repository: 'awesomejack295/azuredevops-agent'
+        containerRegistry: 'External RS-DockerRegistry'
+        repository: 'azuredevops-agent'
         dockerfile: './Dockerfile'
         tags: latest
     - task: CmdLine@2
