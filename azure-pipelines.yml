@@ -22,7 +22,7 @@ stages:
       displayName: Build adoa image
       inputs:
         command: buildAndPush
-        containerRegistry: 'External RS-DockerRegistry'
+        containerRegistry: 'Internal RS-DockerRegistry'
         repository: 'azuredevops-agent'
         dockerfile: './Dockerfile'
         tags: latest
