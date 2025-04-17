@@ -1,37 +1,25 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
+ENV TARGETARCH="linux-x64"
+# Also can be "linux-arm", "linux-arm64".
 
-# To make it easier for build and release pipelines to run apt-get,
-# configure apt to not require confirmation (assume the -y argument by default)
-ENV DEBIAN_FRONTEND=noninteractive
-RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
+RUN apt update && \
+  apt upgrade -y && \
+  apt install -y curl git jq libicu70
 
-# Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    wget \
-    curl \
-    jq \
-    git \
-    iputils-ping \
-    libcurl4 \
-    libicu60 \
-    libunwind8 \
-    netcat \
-    libssl1.0 \
-    apt-transport-https \
-    unzip \
-    tzdata \
-  && rm -rf /var/lib/apt/lists/*
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN curl -LsS https://aka.ms/InstallAzureCLIDeb | bash \
-  && rm -rf /var/lib/apt/lists/*
+WORKDIR /azp/
 
-# Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
-ENV TARGETARCH=linux-x64
+COPY ./start.sh ./
+RUN chmod +x ./start.sh
 
-WORKDIR /azp
+# Create agent user and set up home directory
+RUN useradd -m -d /home/agent agent
+RUN chown -R agent:agent /azp /home/agent
 
-COPY ./start.sh .
-RUN chmod +x start.sh
+USER agent
+# Another option is to run the agent as root.
+# ENV AGENT_ALLOW_RUNASROOT="true"
 
-ENTRYPOINT ["./start.sh"]
+ENTRYPOINT [ "./start.sh" ]
