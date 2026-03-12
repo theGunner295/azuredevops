@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: azure-pipelines-agent
-          image: "awesomejack295/azuredevops-agent:latest"
+          image: "ghcr.io/theGunner295/azuredevops-agent:latest"
           imagePullPolicy: Always
           env:
             - name: AZP_AGENT_NAME
